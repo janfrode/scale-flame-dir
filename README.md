@@ -17,13 +17,13 @@ This will generate the sqlite3 database /root/scale-flame-dir/dir.db, which can 
 
 ```
 # git clone https://github.com/brendangregg/FlameGraph.git
-# sqlite3 dir.db 'select printf("%s %s", path, kballocated)  from directories;'|sed 's#/#;#g'|sed 's/^;//' | FlameGraph/flamegraph.pl --countname=kbytes  --title "Directory capacity"  --nametype Directory > out.svg
+# sqlite3 dir.db 'select printf("%s %s", path, kballocated) from directories;'|sed 's#/#;#g'|sed 's/^;//' | FlameGraph/flamegraph.pl --countname=kbytes  --title "Directory capacity"  --nametype Directory > out.svg
 ```
 
 Or, a flame graph on number of files instead of capacity:
 
 ```
-# sqlite3 dir.db 'select printf("%s %s", path, files)  from directories;'|sed 's#/#;#g'|sed 's/^;//' | FlameGraph/flamegraph.pl --countname=files  --title "Directory files"  --nametype Directory > out.svg
+# sqlite3 dir.db 'select printf("%s %s", path, files) from directories;'|sed 's#/#;#g'|sed 's/^;//' | FlameGraph/flamegraph.pl --countname=files  --title "Directory files"  --nametype Directory > out.svg
 ```
 [![Sample flame graph over files](https://tanso.net/scale-flame-dir/forum-scale-files.svg)](https://tanso.net/scale-flame-dir/forum-scale-files.svg)
 

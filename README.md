@@ -1,5 +1,5 @@
 # scale-flame-dir
-Generate flame graph over used capacity per IBM Storage Scale directory, using the GPFS policy engine. Generating the graph over all *files* will likely be too much data to handle, so we rather summarize the capacity of each file in each directory, and generate the graph on the directory level instead.
+Generate flame graph over used capacity per IBM Storage Scale directory, using the GPFS policy engine. Generating the graph over all *files* will likely be too much data to handle, so we rather summarize the capacity of all files in each directory, and generate the graph on the directory level instead.
 
 [![Sample flame graph](https://tanso.net/scale-flame-dir/forum-lab.svg)](https://tanso.net/scale-flame-dir/forum-lab.svg)
 

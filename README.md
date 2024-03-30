@@ -14,6 +14,9 @@ cd scale-flame-dir
 mmapplypolicy gpfs0 -P populatedb.policy -N localhost -B 100000 --choice-algorithm fast
 ```
 
+If there are ```database is locked``` errors logged while mmapplypolicy is running, consider reducing the number of parallel database updates with the ```mmapplypolicy ... -m ThreadLevel``` option, which defaults to 24.
+
+
 This will generate the sqlite3 database /root/scale-flame-dir/dir.db, which can then be used to generate a capacity flame graph using:
 
 ```

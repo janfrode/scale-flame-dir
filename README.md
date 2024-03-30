@@ -8,7 +8,7 @@ Click on the image to get to a version that can be used to zoom into the directo
 To generate the above plot, we first use the policy engine to list all files and sizes, and summarize this per directory in a sqlite3 database. This should only take minutes on a 100 million+ file file system.
 
 ```
-cd /root
+cd /root ## sorry, my scripts use hardcoded /root/scale-flame-dir path for now...
 git clone https://github.com/janfrode/scale-flame-dir.git
 cd scale-flame-dir
 mmapplypolicy gpfs0 -P populatedb.policy -N localhost -B 100000 --choice-algorithm fast

@@ -25,5 +25,6 @@ Or, a flame graph of number of files instead of capacity:
 ```
 # sqlite3 dir.db 'select printf("%s %s", path, files)  from directories;'|sed 's#/#;#g'|sed 's/^;//' | FlameGraph/flamegraph.pl --countname=files  --title "Directory files"  --nametype Directory > out.svg
 ```
+[![Sample flame graph over files](https://tanso.net/scale-flame-dir/forum-scale-files.svg)](https://tanso.net/scale-flame-dir/forum-scale-files.svg)
 
 

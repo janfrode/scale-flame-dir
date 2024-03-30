@@ -3,6 +3,7 @@ Generate flame graph over used capacity per IBM Storage Scale directory, using t
 
 [![Sample flame graph](https://tanso.net/scale-flame-dir/forum-lab.svg)](https://tanso.net/scale-flame-dir/forum-lab.svg)
 
+Click on the image to get to a version that can be used to zoom into the directory structure.
 
 To generate the above plot, we first use the policy engine to list all files and sizes, and summarize this per directory in a sqlite3 database. This should only take minutes on a 100 million+ file file system.
 

@@ -20,7 +20,7 @@ This will generate the sqlite3 database /root/scale-flame-dir/dir.db, which can 
 # sqlite3 dir.db 'select printf("%s %s", path, kballocated)  from directories;'|sed 's#/#;#g'|sed 's/^;//' | FlameGraph/flamegraph.pl --countname=kbytes  --title "Directory capacity"  --nametype Directory > out.svg
 ```
 
-Or, a flame graph of number of files instead of capacity:
+Or, a flame graph on number of files instead of capacity:
 
 ```
 # sqlite3 dir.db 'select printf("%s %s", path, files)  from directories;'|sed 's#/#;#g'|sed 's/^;//' | FlameGraph/flamegraph.pl --countname=files  --title "Directory files"  --nametype Directory > out.svg

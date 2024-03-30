@@ -1,0 +1,10 @@
+RULE EXTERNAL LIST 'populatedb' EXEC '/root/scale-flame-dir/populatedb.sh'
+
+RULE 'findFilesAndDirs' LIST 'populatedb'
+        DIRECTORIES_PLUS
+        WEIGHT(0)
+        SHOW(
+           VARCHAR(DIRECTORY_HASH) || ' ' ||
+           VARCHAR(FILE_SIZE) || ' ' ||
+           VARCHAR(MODE) || ' ' ||
+           VARCHAR(KB_ALLOCATED))

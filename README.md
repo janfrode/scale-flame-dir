@@ -9,7 +9,7 @@ To generate the above plot, we first use the policy engine to list all files and
 # cd /root
 # git clone https://github.com/janfrode/scale-flame-dir.git
 # cd scale-flame-dir
-# mmapplypolicy gpfs0 -P populatedb.policy -I defer -N localhost -B 100000 --choice-algorithm fast
+# mmapplypolicy gpfs0 -P populatedb.policy -N localhost -B 100000 --choice-algorithm fast
 ```
 
 This will generate the sqlite3 database /root/scale-flame-dir/dir.db, which can then be used to generate a capacity flame graph using:

@@ -8,7 +8,6 @@ Click on the image to get to a version that can be used to zoom into the directo
 To generate the above plot, we first use the policy engine to list all files and sizes, and summarize this per directory in a sqlite3 database. This should only take minutes on a 100 million+ file file system.
 
 ```
-cd /root ## sorry, my scripts use hardcoded /root/scale-flame-dir path for now...
 git clone https://github.com/janfrode/scale-flame-dir.git
 cd scale-flame-dir
 mmapplypolicy gpfs0 -P populatedb.policy -N localhost -B 100000 --choice-algorithm fast
@@ -17,17 +16,17 @@ mmapplypolicy gpfs0 -P populatedb.policy -N localhost -B 100000 --choice-algorit
 If there are ```database is locked``` errors logged while mmapplypolicy is running, consider reducing the number of parallel database updates with the ```mmapplypolicy ... -m ThreadLevel``` option, which defaults to 24.
 
 
-This will generate the sqlite3 database /root/scale-flame-dir/dir.db, which can then be used to generate a capacity flame graph using:
+This will generate the sqlite3 database ```scaledir.db```, which can then be used to generate a capacity flame graph using:
 
 ```
 git clone https://github.com/brendangregg/FlameGraph.git
-sqlite3 dir.db 'select printf("%s %s", replace(ltrim(path,"/"),"/",";"), kballocated) from directories;' | FlameGraph/flamegraph.pl --countname=kbytes  --title "Directory capacity"  --nametype Directory > out.svg
+sqlite3 scaledir.db 'select printf("%s %s", replace(ltrim(path,"/"),"/",";"), kballocated) from directories;' | FlameGraph/flamegraph.pl --countname=kbytes  --title "Directory capacity"  --nametype Directory > out.svg
 ```
 
 Or, a flame graph on number of files instead of capacity:
 
 ```
-sqlite3 dir.db 'select printf("%s %s", replace(ltrim(path,"/"),"/",";"), files) from directories;' | FlameGraph/flamegraph.pl --countname=files  --title "Directory files"  --nametype Directory > out.svg
+sqlite3 scaledir.db 'select printf("%s %s", replace(ltrim(path,"/"),"/",";"), files) from directories;' | FlameGraph/flamegraph.pl --countname=files  --title "Directory files"  --nametype Directory > out.svg
 ```
 [![Sample flame graph over files](https://tanso.net/scale-flame-dir/forum-scale-files.svg)](https://tanso.net/scale-flame-dir/forum-scale-files.svg)
 

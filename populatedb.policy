@@ -1,4 +1,4 @@
-RULE EXTERNAL LIST 'populatedb' EXEC '/root/scale-flame-dir/populatedb.sh'
+RULE EXTERNAL LIST 'populatedb' EXEC './populatedb.sh'
 
 RULE 'findFilesAndDirs' LIST 'populatedb'
         DIRECTORIES_PLUS

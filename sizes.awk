@@ -22,8 +22,8 @@ function dirname (pathname){
 END {
         printf ".output /dev/null\n";
         printf "PRAGMA busy_timeout=20000;\n";
-        #printf "PRAGMA journal_mode = MEMORY;\n";
         printf "PRAGMA journal_mode = WAL;\n";
+		printf "PRAGMA synchronous = OFF;\n";
         printf ".output stdout\n";
         printf "BEGIN IMMEDIATE TRANSACTION;\n";
         for (i in a) printf "INSERT INTO directories(DIRECTORY_HASH, files, kballocated, path) VALUES('%s', %s, %s, '%s') ON CONFLICT(DIRECTORY_HASH) DO UPDATE SET files=files+%s, kballocated=kballocated+%s, path='%s';\n", i, b[i], a[i], c[i], b[i], a[i], c[i]

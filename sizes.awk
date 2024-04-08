@@ -1,7 +1,10 @@
 BEGIN {
-        printf "CREATE TABLE  IF NOT EXISTS directories(DIRECTORY_HASH text PRIMARY KEY, files INT, kballocated INT, path TEXT);\n";
-
-
+    printf "CREATE TABLE IF NOT EXISTS directories(path text NOT NULL PRIMARY KEY, files INT NOT NULL, kballocated INT NOT NULL);\n";
+	printf ".output /dev/null\n";
+	printf "PRAGMA busy_timeout=20000;\n";
+	printf "PRAGMA journal_mode = WAL;\n";
+	printf "PRAGMA synchronous = OFF;\n";
+	printf ".output stdout\n";
 }
 function dirname (pathname){
         if (!sub(/\/[^\/]*\/?$/, "", pathname))
@@ -14,18 +17,24 @@ function dirname (pathname){
 {
         split($1, fields, " ") ;
         kballocated=fields[7];
-        DIRECTORY_HASH=fields[4] ;
-        a[DIRECTORY_HASH] += $kballocated ;
-        b[DIRECTORY_HASH] += 1 ;
-        c[DIRECTORY_HASH] = dirname($2)
+	directory = dirname($2)
+	# Sanitize output for sqlite, just drop single quotes..
+	gsub("'", "", directory)
+        a[directory] += kballocated ;
+        b[directory] += 1 ;
+	# flush after every million lines to avoid using too much memory
+	if (NR%1000000)
+	{
+        	printf "BEGIN IMMEDIATE TRANSACTION;\n";
+        	for (i in a) printf "INSERT INTO directories(path, files, kballocated) VALUES('%s', %i, %i) ON CONFLICT(path) DO UPDATE SET files=files+%i, kballocated=kballocated+%i;\n", i, b[i], a[i], b[i], a[i]
+        	printf "END TRANSACTION;\n";
+        	delete a;
+        	delete b;
+        	delete c;
+	}
 }
 END {
-        printf ".output /dev/null\n";
-        printf "PRAGMA busy_timeout=20000;\n";
-        printf "PRAGMA journal_mode = WAL;\n";
-		printf "PRAGMA synchronous = OFF;\n";
-        printf ".output stdout\n";
         printf "BEGIN IMMEDIATE TRANSACTION;\n";
-        for (i in a) printf "INSERT INTO directories(DIRECTORY_HASH, files, kballocated, path) VALUES('%s', %s, %s, '%s') ON CONFLICT(DIRECTORY_HASH) DO UPDATE SET files=files+%s, kballocated=kballocated+%s, path='%s';\n", i, b[i], a[i], c[i], b[i], a[i], c[i]
+        for (i in a) printf "INSERT INTO directories(path, files, kballocated) VALUES('%s', %i, %i) ON CONFLICT(path) DO UPDATE SET files=files+%i, kballocated=kballocated+%i;\n", i, b[i], a[i], b[i], a[i]
         printf "END TRANSACTION;\n";
 }

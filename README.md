@@ -30,5 +30,5 @@ sqlite3 scaledir.db 'select printf("%s %s", replace(ltrim(path,"/"),"/",";"), fi
 ```
 [![Sample flame graph over files](https://tanso.net/scale-flame-dir/forum-scale-files.svg)](https://tanso.net/scale-flame-dir/forum-scale-files.svg)
 
-Beware, for a 200 million file file system, generating the graphs needed 16 GB memory.
+Beware, for a 200 million file file system with 24 million directories, generating the graphs needed 16 GB memory.
 

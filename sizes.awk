@@ -16,7 +16,7 @@ function dirname (pathname){
 }
 {
         split($1, fields, " ") ;
-        kballocated=fields[7];
+        kballocated=fields[6];
 	directory = dirname($2)
 	# Sanitize output for sqlite, just drop single quotes..
 	gsub("'", "", directory)

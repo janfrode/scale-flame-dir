@@ -2,8 +2,6 @@
 
 case "$1" in
 	TEST)
-		echo Deleting old sqlite3 databasefile.
-		rm -f scaledir.db
 		exit 0
 	;;
 	LIST)

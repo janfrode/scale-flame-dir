@@ -10,13 +10,11 @@ To generate the above plot, we first use the policy engine to list all files and
 ```
 git clone https://github.com/janfrode/scale-flame-dir.git
 cd scale-flame-dir
-mmapplypolicy gpfs0 -P populatedb.policy -N localhost -B 100000 --choice-algorithm fast
+mmapplypolicy gpfs0 -P populatedb.policy -B 1000000 --choice-algorithm fast -f filelist -I defer
+awk -F ' -- ' -f sizes.awk filelist.list.populatedb|sqlite3 scaledir.db
 ```
 
-If there are ```database is locked``` errors logged while mmapplypolicy is running, consider reducing the number of parallel database updates with the ```mmapplypolicy ... -m ThreadLevel``` option, which defaults to 24.
-
-
-This will generate the sqlite3 database ```scaledir.db```, which can then be used to generate a capacity flame graph using:
+This will generate the sqlite3 database ```scaledir.db``` containing a table of all directories including number of files and bytes allocated for all files in the directory. This can then be used to generate a capacity flame graph using:
 
 ```
 git clone https://github.com/brendangregg/FlameGraph.git
